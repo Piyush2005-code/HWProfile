@@ -1,0 +1,4 @@
+results/
+profiler
+*.o
+.DS_Store
