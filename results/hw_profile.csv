@@ -1,0 +1,11 @@
+key,value
+os,Darwin 25.5.0
+arch,arm64
+num_cpus,8
+l1d_size_kb,64
+l2_size_kb,4096
+l3_size_kb,0
+cache_line_bytes,128
+total_ram_mb,8192
+simd_width_bits,128
+has_affinity,0

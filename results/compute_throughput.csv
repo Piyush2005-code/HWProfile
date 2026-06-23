@@ -1,0 +1,9 @@
+kernel,precision,chain_depth,simd_lanes,gflops_per_core
+scalar_fma,f64,1,1,2.001716
+scalar_fma,f64,2,1,4.001170
+scalar_fma,f64,4,1,8.015261
+scalar_fma,f64,8,1,15.514941
+scalar_fma,f64,16,1,29.656870
+scalar_fma,f32,1,1,2.001987
+scalar_fma,f32,8,1,15.886318
+simd_fma,f32,4,4,23.069115
