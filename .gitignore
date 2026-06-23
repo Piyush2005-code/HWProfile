@@ -1,4 +1,5 @@
 results/
 profiler
-**.o
+*.o
 .DS_Store
+logs/

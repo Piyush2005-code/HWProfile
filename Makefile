@@ -72,8 +72,8 @@ src/%.o: src/%.c
 # ── Run ───────────────────────────────────────────────────────────────────
 
 run: $(TARGET)
-	@mkdir -p results
-	./$(TARGET) $(ARG)
+	@mkdir -p results logs
+	./$(TARGET) $(ARG) 2>&1 | tee logs/profiler_run.log
 
 # ── Plots ─────────────────────────────────────────────────────────────────
 #
