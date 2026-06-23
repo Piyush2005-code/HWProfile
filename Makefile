@@ -28,7 +28,7 @@ CC := $(shell command -v gcc 2>/dev/null || echo clang)
 # -Wall -Wextra  : Enable warnings; treat your code as a learning resource.
 # -Iinclude      : Find our headers in include/
 
-CFLAGS  := -O3 -march=native -std=c11 -Wall -Wextra -Iinclude
+CFLAGS  := -O3 -march=native -std=c11 -D_GNU_SOURCE -Wall -Wextra -Iinclude
 
 # ── Linker flags ──────────────────────────────────────────────────────────
 #
