@@ -1,0 +1,15 @@
+@@ -285,12 +285,10 @@
+     pthread_cond_t  cond_a;   /* signalled by B when it is done */
+     pthread_cond_t  cond_b;   /* signalled by A when data is ready */
+     int             turn;     /* 0 = A's turn to send, 1 = B's turn */
+-    long long       rounds;
+     volatile int    stop;
+ } PingPongState;
+ 
+ static void *pingpong_thread_b(void *varg) {
+     PingPongState *s = (PingPongState *)varg;
+-    for (long long i = 0; i < s->rounds; i++) {
+-        /* Wait for A to signal "frame ready" */
+-        pthread_mutex_lock(&s->mu);
++
++    pthread_mutex_lock(&s->mu);
