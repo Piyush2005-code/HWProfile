@@ -293,19 +293,18 @@ typedef struct {
 
 static void *pingpong_thread_b(void *varg) {
     PingPongState *s = (PingPongState *)varg;
-    for (long long i = 0; i < s->rounds; i++) {
-        /* Wait for A to signal "frame ready" */
-        pthread_mutex_lock(&s->mu);
-        while (s->turn != 1 && !s->stop)
+    
+    pthread_mutex_lock(&s->mu);
+    while (!s->stop) {
+        while (s->turn != 1 && !s->stop) {
             pthread_cond_wait(&s->cond_b, &s->mu);
+        }
+        if (s->stop) break;
+        
         s->turn = 0;
-        pthread_mutex_unlock(&s->mu);
-
-        /* Signal A that processing is done */
-        pthread_mutex_lock(&s->mu);
         pthread_cond_signal(&s->cond_a);
-        pthread_mutex_unlock(&s->mu);
     }
+    pthread_mutex_unlock(&s->mu);
     return NULL;
 }
 
@@ -317,39 +316,38 @@ static double bench_condvar_pingpong(void) {
     pthread_cond_init(&s.cond_a, NULL);
     pthread_cond_init(&s.cond_b, NULL);
     s.turn   = 0;
-    s.rounds = ROUNDS + 100; /* 100 warm-up + ROUNDS timed */
+    s.rounds = ROUNDS;
     s.stop   = 0;
 
     pthread_t tb;
     pthread_create(&tb, NULL, pingpong_thread_b, &s);
 
     /* Warm up */
+    pthread_mutex_lock(&s.mu);
     for (int w = 0; w < 100; w++) {
-        pthread_mutex_lock(&s.mu);
         s.turn = 1;
         pthread_cond_signal(&s.cond_b);
-        pthread_mutex_unlock(&s.mu);
-
-        pthread_mutex_lock(&s.mu);
-        while (s.turn != 0) pthread_cond_wait(&s.cond_a, &s.mu);
-        pthread_mutex_unlock(&s.mu);
+        while (s.turn != 0) {
+            pthread_cond_wait(&s.cond_a, &s.mu);
+        }
     }
+    pthread_mutex_unlock(&s.mu);
 
     hr_time_t t;
     timer_start(&t);
 
+    pthread_mutex_lock(&s.mu);
     for (long long i = 0; i < ROUNDS; i++) {
-        /* A sends to B */
-        pthread_mutex_lock(&s.mu);
         s.turn = 1;
         pthread_cond_signal(&s.cond_b);
-        pthread_mutex_unlock(&s.mu);
-
-        /* A waits for B's reply */
-        pthread_mutex_lock(&s.mu);
-        while (s.turn != 0) pthread_cond_wait(&s.cond_a, &s.mu);
-        pthread_mutex_unlock(&s.mu);
+        while (s.turn != 0) {
+            pthread_cond_wait(&s.cond_a, &s.mu);
+        }
     }
+    
+    s.stop = 1;
+    pthread_cond_signal(&s.cond_b);
+    pthread_mutex_unlock(&s.mu);
 
     double elapsed_s = timer_elapsed_s(&t);
     pthread_join(tb, NULL);
