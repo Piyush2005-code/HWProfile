@@ -1,5 +1,5 @@
 /*
- * main.c — ArchScope Lite Entry Point
+ * main.c — Hardware Profiling Engine Entry Point
  *
  * Orchestrates the four benchmark phases:
  *   Phase 0: Hardware discovery (always runs first)
@@ -34,7 +34,7 @@
 static void print_banner(void) {
     printf("\n");
     printf("  ╔══════════════════════════════════════════════════════╗\n");
-    printf("  ║          ArchScope Lite — Hardware Profiler          ║\n");
+    printf("  ║             Hardware Profiling Engine                ║\n");
     printf("  ║   Detects hardware at runtime. No hardcoded values.  ║\n");
     printf("  ╚══════════════════════════════════════════════════════╝\n");
     printf("\n");
