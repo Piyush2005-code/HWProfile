@@ -317,7 +317,7 @@ static double bench_condvar_pingpong(void) {
     pthread_cond_init(&s.cond_a, NULL);
     pthread_cond_init(&s.cond_b, NULL);
     s.turn   = 0;
-    s.rounds = ROUNDS;
+    s.rounds = ROUNDS + 100; /* 100 warm-up + ROUNDS timed */
     s.stop   = 0;
 
     pthread_t tb;
