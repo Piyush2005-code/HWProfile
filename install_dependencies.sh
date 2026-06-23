@@ -2,7 +2,7 @@
 set -e
 
 echo "================================================="
-echo "  ArchScope Lite — Dependency Installer"
+echo "  Hardware Profiling Engine — Dependency Installer"
 echo "================================================="
 echo ""
 

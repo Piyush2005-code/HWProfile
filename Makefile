@@ -1,4 +1,4 @@
-# ArchScope Lite — Hardware Profiling Engine
+# Hardware Profiling Engine
 # Makefile
 #
 # Targets:

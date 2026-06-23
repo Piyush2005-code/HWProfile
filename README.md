@@ -1,4 +1,4 @@
-# ArchScope Lite — Hardware Profiling Engine
+# Hardware Profiling Engine
 
 A lightweight, hardware-agnostic CPU profiler written in pure C.
 Detects hardware configuration at runtime, runs four focused benchmark
